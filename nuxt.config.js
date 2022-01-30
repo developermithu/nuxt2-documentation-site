@@ -25,6 +25,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/vue-instantsearch'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -32,18 +33,30 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
-    'nuxt-vite',
+    'nuxt-content-algolia',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxt/content'
+    '@nuxt/content',
   ],
+
+  nuxtContentAlgolia: {
+    appId: process.env.ALGOLIA_APP_ID,
+    apiKey: process.env.ALGOLIA_API_KEY,
+    paths: [
+      {
+        name: 'documentation',
+        index: process.env.ALGOLIA_INDEX || 'docs',
+        fields: ['title', 'description', 'bodyPlainText']
+      }
+    ]
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: ['vue-instantsearch', 'instantsearch.js'],
   },
 
   // Highlight Themes
@@ -53,5 +66,15 @@ export default {
         theme: 'prism-themes/themes/prism-one-dark.min.css'
       }
     }
-  }
+  },
+
+  
+  hooks: {
+    'content:file:beforeInsert': (document) => {
+      const removeMd = require('remove-markdown');
+      if (document.extension === '.md') {
+        document.bodyPlainText = removeMd(document.text)
+      }
+    }
+  },
 }

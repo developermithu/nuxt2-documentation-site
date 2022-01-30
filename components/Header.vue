@@ -10,7 +10,8 @@
 
 <!-- Search -->
 <div>
-  <input type="search" placeholder="Type search.." class="px-5 py-2 rounded bg-gray-50 w-64 border-none">
+  <!-- <input type="search" placeholder="Type search.." class="px-5 py-2 rounded bg-gray-50 w-64 border-none"> -->
+  <Search/>
 </div>
 
 <!-- right side -->

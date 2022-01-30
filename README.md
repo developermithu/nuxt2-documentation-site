@@ -17,3 +17,10 @@ $ npm run start
 $ npm run generate
 ```
 
+### Algolia Setup
+
+```cmd
+npm install vue-instantsearch algoliasearch instantsearch.css
+npm install nuxt-content-algolia
+npm install remove-markdown
+```
